@@ -1,0 +1,48 @@
+<ion-content>
+
+  <ion-slides pager>
+
+
+    <ion-slide (ionSlideNextEnd)="nextSlide()">
+      <p class="slide-title">Welcome to Messenger</p>
+      <div padding>
+        <img class="logo" src="assets/imgs/logo.png" />
+        <br /> <br />
+        <p class="slide-body">An awesome replacement to your default SMS app!</p>
+        <p class="slide-body">Slide through to get introduced, or click skip to get started straight away!</p>
+      </div>
+    </ion-slide>
+
+    <ion-slide class="slide1">
+      <p class="slide-title">Permissions</p>
+      <div padding>
+        <p class="slide-body">When you click next we will prompt you for some permissions, without these we unfortunately cannot operate this app :(</p>
+      </div>
+    </ion-slide>
+
+    <ion-slide class="slide2">
+      <p class="slide-title">Ready?</p>
+
+      <div padding>
+        <p class="slide-body">It seems we are all setup and ready to go!</p>
+        <p class="slide-body">When you click next we will start to process all of your text messages and start categorizing them, this make take a while!</p>
+        <button ion-button block outline color="primary" (click)="continue()">
+          Get Started
+        </button>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-footer no-shadow no-border>
+    <ion-navbar transparent>
+      <ion-buttons>
+        <button *ngIf="!this.slides.isBeginning()" ion-button icon-left (click)="this.slides.slidePrev()" color="dark"><ion-icon name="ios-arrow-back"></ion-icon> Previous</button>
+        <button *ngIf="!this.slides.isEnd() && this.slides.isBeginning()" ion-button icon-right (click)="continue()" color="dark">Skip</button>
+      </ion-buttons>
+      <ion-buttons end>
+        <button *ngIf="!this.slides.isEnd()" ion-button icon-right (click)="nextSlide()" [disabled]="isNextDisabled" color="dark">Next <ion-icon name="ios-arrow-forward"></ion-icon></button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-footer>
+
+</ion-content>

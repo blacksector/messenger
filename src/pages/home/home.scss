@@ -1,3 +1,33 @@
 page-home {
+  ion-segment {
+    display: block;
+    white-space: nowrap;
+    font-size: 0;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
+    ion-segment-button.segment-button {
+        display: inline-block;
+        min-width: 98px;
+        width: auto;
+
+    }
+  }
+  .roundedSquare {
+    border-radius: 20% !important;
+    height: 55px !important;
+    width: auto !important;
+  }
+
+  .contactName {
+    color: map-get($colors, "dark");
+    font-size: 1.1em;
+    line-height: 2;
+  }
 
 }

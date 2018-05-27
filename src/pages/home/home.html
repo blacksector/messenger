@@ -1,14 +1,84 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+<ion-header no-shadow no-border>
+
+  <ion-toolbar transparent>
+    <ion-title >Messenger</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="search()" color="dark"><ion-icon name="md-search"></ion-icon></button>
+      <button ion-button icon-only (click)="more()" color="dark"><ion-icon name="md-more"></ion-icon></button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <!-- Search toolbar -->
+  <ion-toolbar [@slideUpAndDown] transparent *ngIf="showSearch">
+    <ion-searchbar (ionInput)="getItems($event)" (ionCancel)="search($event)"></ion-searchbar>
+  </ion-toolbar>
+
+  <!-- Categories toolbar -->
+  <ion-toolbar [@slideUpAndDown] transparent *ngIf="!showSearch">
+    <ion-segment [(ngModel)]="selectedCategory" color="dark" (ionChange)="categoryChanged($event)">
+      <ion-segment-button *ngFor="let category of categories" value="{{category}}">
+        {{category}}
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+<ion-content>
+  <!-- <ion-list>
+    <ion-item-sliding *ngFor="let contact of sortedContacts; let i = index" [@conversationAnimation] >
+      <ion-item (click)="openChat(contact.id)" >
+        <ion-avatar item-start>
+          <img class="roundedSquare" [ngStyle]="{'border-top': '1.5px solid ' + contact.color, 'border-left': '0.5px solid ' + contact.color }" src="assets/imgs/default/defaultAvatar.png">
+        </ion-avatar>
+        <p class="contactName">{{contact.name}}</p>
+        <p *ngIf="contact.lastMessage">{{contact.lastMessageContent}}</p>
+        <p *ngIf="!contact.lastMessage">You: {{contact.lastMessageContent}} <small float-right>{{contact.lastMessageTime | timeAgo}}</small></p>
+
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button (click)="deleteConversations(i)" color="primary">
+          <ion-icon name="mail"></ion-icon>
+          Delete
+        </button>
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Text
+        </button>
+        <button ion-button color="secondary">
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list> -->
+
+  <!-- <ion-list>
+    <ion-item-sliding *ngFor="let message of messages; let i = index" [@conversationAnimation] >
+      <ion-item (click)="openChat(message.address)" >
+        <ion-avatar item-start>
+          <img class="roundedSquare" src="assets/imgs/default/defaultAvatar.png">
+        </ion-avatar>
+        <p class="contactName">{{message.address}}</p>
+        <p>{{message.body}}</p>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button (click)="deleteConversations(i)" color="primary">
+          <ion-icon name="mail"></ion-icon>
+          Delete
+        </button>
+        <button ion-button color="primary">
+          <ion-icon name="text"></ion-icon>
+          Text
+        </button>
+        <button ion-button color="secondary">
+          <ion-icon name="call"></ion-icon>
+          Call
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list> -->
+
+  {{ ids }}
+
 </ion-content>

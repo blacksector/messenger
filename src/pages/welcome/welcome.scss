@@ -1,0 +1,33 @@
+page-welcome {
+
+  ion-slide {
+    background-color: map-get($colors, "light");
+    ion-item {
+      background-color: transparent !important;
+    }
+    .slide-title {
+      font-size: 32px;
+      color: map-get($colors, "dark");
+    }
+
+    .slide-body {
+      color: map-get($colors, "dark");
+    }
+  }
+
+  .logo {
+    width: 128px;
+    height: 128px;
+  }
+
+  .verify-dialog {
+    width: 10em;
+    height: 8em;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: map-get($colors, "dark");
+  }
+
+
+}
