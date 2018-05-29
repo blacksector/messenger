@@ -121,8 +121,12 @@ export class DatabaseProvider {
     });
   }
 
-  getRecentMessages() {
-    return this.database.executeSql("SELECT id, MIN(thread_id), address, date, date_sent, read, body FROM inbox GROUP BY thread_id", []).then((data) => {
+  getRecentMessages(tag? : string) {
+    let sqlStatement = "SELECT id, thread_id, address, MAX(date), date_sent, read, body FROM inbox GROUP BY thread_id";
+    if (tag) {
+      sqlStatement += " WHERE tag = '"+tag+"'";
+    }
+    return this.database.executeSql(sqlStatement, []).then((data) => {
       let messages = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {

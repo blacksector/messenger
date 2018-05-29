@@ -95,6 +95,7 @@ export class HomePage {
 
   categoryChanged(event: any) {
     let newCategory = event._value;
+    this.getSMSCategory(newCategory);
     this.createToast("Selected Category: " + event._value).present();
   }
 
@@ -147,6 +148,16 @@ export class HomePage {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.db.getRecentMessages().then(data => {
+          this.messages = data;
+        })
+      }
+    })
+  }
+
+  getSMSCategory(tag: string) {
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.db.getRecentMessages(tag).then(data => {
           this.messages = data;
         })
       }
