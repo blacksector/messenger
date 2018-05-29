@@ -63,7 +63,7 @@ export class HomePage {
 
   // Categories:
   selectedCategory: any = "All";
-  categories: any = ["All", "Contacts", "Financial", "OTP", "Promotion", "Unknown"];
+  categories: any = ["All", "Contacts", "Financial", "Authentication", "Promotion", "Unknown"];
 
   // Contacts
   sortedContacts: any = [
@@ -82,7 +82,7 @@ export class HomePage {
     public toastCtrl: ToastController, public popoverCtrl: PopoverController,
     public platform: Platform, public db: DatabaseProvider) {
 
-    this.ReadSMSList();
+    this.getSMSFromDB();
 
   }
 
@@ -98,9 +98,17 @@ export class HomePage {
     this.createToast("Selected Category: " + event._value).present();
   }
 
-  openChat(id: number) {
+  openChat(thread_id: any) {
 
-    this.navCtrl.push('ChatPage', {"chatId": id}, {animation: 'ios-transition', animate: true, direction: "forward"});
+    this.db.getDatabaseState().subscribe(rdy => {
+      if (rdy) {
+        this.db.getThreadMessages(thread_id).then(data => {
+          this.navCtrl.push('ChatPage', {"chatId": thread_id, "messages": data}, {animation: 'ios-transition', animate: true, direction: "forward"});
+        })
+      }
+    })
+
+
 
   }
 
@@ -134,78 +142,15 @@ export class HomePage {
     this.sortedContacts.splice(0,1);
   }
 
-  ReadSMSList() {
-    this.platform.ready().then((readySource) => {
 
-      let filter = {
-        box : 'inbox', // 'inbox' (default), 'sent', 'draft'
-        indexFrom : 0, // start from index 0
-        maxCount : 10, // count of SMS to return each time
-      };
-
-      if(SMS) SMS.listSMS(filter, (ListSms)=>{
-        this.messages=ListSms
-      }, error=>{
-        alert(JSON.stringify(error))
-      });
-
-      this.processSMS();
-
-    });
-  }
-
-  processSMS() {
-
+  getSMSFromDB() {
     this.db.getDatabaseState().subscribe(rdy => {
       if (rdy) {
-
-        this.db.existingIds().then(data => {
-          this.ids = data;
+        this.db.getRecentMessages().then(data => {
+          this.messages = data;
         })
-
-        // Here we will start to process the sms and add it to our database
-        // Will need to do redundant checks and make sure a sms with the given
-        // id doesn't already exist in our data, will sort of make the app slow
-        // but this is only a demo app anyway.
-        for (var i = 0; i < this.messages.length; i++) {
-          let added = false;
-          for (var x = 0; x < this.ids.length; x++) {
-            if (this.messages[i]["_id"] == this.ids[x]) {
-              added = true;
-            }
-          }
-          if (!added) {
-            //id, thread_id, address, date, date_sent, read, status, type, body, locked, error_code, sub_id, seen
-            let id = this.messages[i]["_id"];
-            let thread_id = this.messages[i]["thread_id"];
-            let address = this.messages[i]["address"];
-            let date = this.messages[i]["date"];
-            let date_sent = this.messages[i]["date_sent"];
-            let read = this.messages[i]["read"];
-            let status = this.messages[i]["status"];
-            let type = this.messages[i]["type"];
-            let body = this.messages[i]["body"];
-            let locked = this.messages[i]["locked"];
-            let error_code = this.messages[i]["error_code"];
-            let sub_id = this.messages[i]["sub_id"];
-            let seen = this.messages[i]["seen"];
-
-            alert("Added: " + this.messages[i]["_id"]);
-
-            // Ok so the sms message does not exist in our database already:
-            this.db.addMessage(id, thread_id, address, date, date_sent, read, status, type, body, locked, error_code, sub_id, seen).then(data => {
-              alert(JSON.stringify(data));
-            });
-          }
-
-        }
-
-        // Here we will look if the SMS has a thread already in our database:
-        // if it does we won't recategorize the sms, otherwise we will
       }
     })
-
-
   }
 
 

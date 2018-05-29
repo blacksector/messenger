@@ -86,7 +86,7 @@
     <allow-navigation href="http://192.168.1.13:8100" />
     <plugin name="cordova-plugin-android-permissions" spec="^1.0.0" />
     <plugin name="cordova-plugin-sms" spec="^1.0.5" />
-    <engine name="android" spec="~7.0.0" />
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.0.2" />
     <plugin name="cordova-sqlite-storage" spec="^2.3.2" />
+    <engine name="android" spec="~7.0.0" />
 </widget>

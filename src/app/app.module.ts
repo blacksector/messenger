@@ -17,6 +17,7 @@ import { HttpModule } from '@angular/http';
 import { DatabaseProvider } from '../providers/database/database';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
+import { CategorizeProvider } from '../providers/categorize/categorize';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SQLite } from '@ionic-native/sqlite';
     AndroidPermissions,
     DatabaseProvider,
     SQLitePorter,
-    SQLite
+    SQLite,
+    CategorizeProvider
   ]
 })
 export class AppModule {}
